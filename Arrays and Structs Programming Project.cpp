@@ -11,11 +11,11 @@ const int RUNNER_CHOICE = 5;
 const string datafile = "runners.txt";
 
 //The parameters for the functions.
-int getdata(string names[], double times[][RUNNER_CHOICE], int totals[], float avgs[]);
+int getdata(string names[], double miles[][RUNNER_CHOICE], int totals[], float avgs[]);
 
-void totaldata(int totaltime[], double storedtimes[][RUNNER_CHOICE]);
+void totaldata(int totalmiles[], double storedmiles[][RUNNER_CHOICE]);
 
-void avgdata(int totaltime[], float averagetime[]);
+void avgdata(int totalmiles[], float averagemiles[]);
 
 int main()
 {
@@ -38,10 +38,10 @@ int main()
 		cout << runners[row] << " ";
 		for (int col = 0; col < RUNNER_STATS; col++)
 		{ 
-			cout << setw(10) << runnerscores[row][col] << " ";
+			cout << setw(7) << runnerscores[row][col] << " ";
 		}
-		cout << setw(10) << runnertotal[row] << " ";
-		cout << setw(10) << runneravg[row];
+		cout << setw(7) << runnertotal[row] << " ";
+		cout << setw(7) << runneravg[row];
 		cout << endl;
 	}
 
@@ -49,7 +49,7 @@ int main()
 }
 
 //Stores the data in the text document into an array.
-int getdata(string names[], double times[][RUNNER_CHOICE], int totals[], float avgs[])
+int getdata(string names[], double miles[][RUNNER_CHOICE], int totals[], float avgs[])
 {
 	ifstream inputFile;
 	inputFile.open(datafile);
@@ -58,33 +58,33 @@ int getdata(string names[], double times[][RUNNER_CHOICE], int totals[], float a
 	while (inputFile >> names[rec] || rec < RUNNER_CHOICE)
 	{
 		for (int i = 0; i < RUNNER_STATS; i++)
-			inputFile >> times[rec][i];
+			inputFile >> miles[rec][i];
 		rec++;
 	}
 	return rec;
 }
 
 //Finds the total of each row and stores it to the runner total to be output.
-void totaldata(int totaltime[], double storedtimes[][RUNNER_CHOICE])
+void totaldata(int totalmiles[], double storedmiles[][RUNNER_CHOICE])
 {
 	for (int row = 0; row < RUNNER_CHOICE; row++)
 	{
 		int total = 0;
 		for (int col = 0; col < RUNNER_STATS; col++)
 		{
-			total = total + storedtimes[row][col];
+			total = total + storedmiles[row][col];
 		}
-		totaltime[row] = total;
+		totalmiles[row] = total;
 	}
 }
 
 //Finds the average of each row and stores it to the runner average to be output.
-void avgdata(int totaltime[], float averagetime[])
+void avgdata(int totalmiles[], float averagemiles[])
 {
 	for (int row = 0; row < RUNNER_CHOICE; row++)
 	{
 		float average = 0;
-		average = totaltime[row] / 2;
-		averagetime[row] = average;
+		average = totalmiles[row] / 2;
+		averagemiles[row] = average;
 	}
 }
