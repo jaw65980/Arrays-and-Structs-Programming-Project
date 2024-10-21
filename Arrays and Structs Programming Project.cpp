@@ -8,48 +8,46 @@ using namespace std;
 // Global variables all functions use.
 const int RUNNER_STATS = 7;
 const int RUNNER_CHOICE = 5;
+const int RUNNER_MAX = 5;
 const string datafile = "runners.txt";
 
 struct runnerstats
 {
 	string runnername;
-	int runnermiles;
-	int runneraverage;
+	double runnermiles[RUNNER_STATS];
 	int runnertotal;
+	int runneraverage;
 };
 
 //The parameters for the functions.
-int getdata(string names[], double miles[][RUNNER_CHOICE], int totals[], float avgs[]);
+int getdata(runnerstats runners[]);
 
-void totaldata(int totalmiles[], double storedmiles[][RUNNER_CHOICE]);
+void totaldata(runnerstats runners[]);
 
-void avgdata(int totalmiles[], float averagemiles[]);
+void avgdata(runnerstats runners[]);
 
 int main()
 {
 	//Some variables that will be utilized by the functions. These contain the data the program will output.
-	string runners[RUNNER_STATS];
-	double runnerscores[RUNNER_STATS][RUNNER_CHOICE];
-	int runnertotal[RUNNER_STATS];
-	float runneravg[RUNNER_STATS];
+	runnerstats runners[RUNNER_MAX];
 
 	int elmprint;
 
 	//These call the functions.
-	elmprint = getdata(runners, runnerscores, runnertotal, runneravg);
-	totaldata(runnertotal, runnerscores);
-	avgdata(runnertotal, runneravg);
+	elmprint = getdata(runners);
+	totaldata(runners);
+	avgdata(runners);
 
 	//All the outputs are here. Each column runs the score data and the runner total and runner average are ran at the end of each row.
 	for (int row = 0; row < elmprint; row++)
 	{
-		cout << runners[row] << " ";
+		cout << runners[row].runnername << " ";
 		for (int col = 0; col < RUNNER_STATS; col++)
 		{
-			cout << setw(7) << runnerscores[row][col] << " ";
+			cout << setw(7) << runners[row].runnermiles[col] << " ";
 		}
-		cout << setw(7) << runnertotal[row] << " ";
-		cout << setw(7) << runneravg[row];
+		cout << setw(7) << runners[row].runnertotal << " ";
+		cout << setw(7) << runners[row].runneraverage;
 		cout << endl;
 	}
 
@@ -57,42 +55,43 @@ int main()
 }
 
 //Stores the data in the text document into an array.
-int getdata(string names[], double miles[][RUNNER_CHOICE], int totals[], float avgs[])
+int getdata(runnerstats runners[])
 {
 	ifstream inputFile;
 	inputFile.open(datafile);
 	int rec = 0;
 
-	while (inputFile >> names[rec] || rec < RUNNER_CHOICE)
+	while (inputFile >> runners[rec].runnername)
 	{
 		for (int i = 0; i < RUNNER_STATS; i++)
-			inputFile >> miles[rec][i];
+			inputFile >> runners[rec].runnermiles[i];
 		rec++;
 	}
 	return rec;
 }
 
 //Finds the total of each row and stores it to the runner total to be output.
-void totaldata(int totalmiles[], double storedmiles[][RUNNER_CHOICE])
+
+void totaldata(runnerstats runners[])
 {
 	for (int row = 0; row < RUNNER_CHOICE; row++)
 	{
 		int total = 0;
 		for (int col = 0; col < RUNNER_STATS; col++)
 		{
-			total = total + storedmiles[row][col];
+			total += runners[row].runnermiles[col];
 		}
-		totalmiles[row] = total;
+		runners[row].runnertotal = total;
 	}
 }
 
 //Finds the average of each row and stores it to the runner average to be output.
-void avgdata(int totalmiles[], float averagemiles[])
+void avgdata(runnerstats runners[])
 {
 	for (int row = 0; row < RUNNER_CHOICE; row++)
 	{
 		float average = 0;
-		average = totalmiles[row] / 2;
-		averagemiles[row] = average;
+		average = runners[row].runnertotal / 2;
+		runners[row].runneraverage = average;
 	}
 }
