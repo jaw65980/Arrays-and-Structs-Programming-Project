@@ -64,11 +64,6 @@ int getdata(runnerstats runners[])
 			inputFile >> runners[rec].runnermiles[i];
 		rec++;
 	}
-
-	if (!inputFile)
-	{
-		cout << "noooo!";
-	}
 	return rec;
 }
 
