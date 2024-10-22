@@ -8,15 +8,14 @@ using namespace std;
 // Global variables all functions use.
 const int RUNNER_STATS = 7;
 const int RUNNER_CHOICE = 5;
-const int RUNNER_MAX = 5;
 const string datafile = "runners.txt";
 
 struct runnerstats
 {
 	string runnername;
-	double runnermiles[RUNNER_STATS];
-	int runnertotal;
-	int runneraverage;
+	int runnermiles[RUNNER_STATS];
+	double runnertotal;
+	double runneraverage;
 };
 
 //The parameters for the functions.
@@ -29,7 +28,7 @@ void avgdata(runnerstats runners[]);
 int main()
 {
 	//Some variables that will be utilized by the functions. These contain the data the program will output.
-	runnerstats runners[RUNNER_MAX];
+	runnerstats runners[RUNNER_CHOICE];
 
 	int elmprint;
 
@@ -50,8 +49,6 @@ int main()
 		cout << setw(7) << runners[row].runneraverage;
 		cout << endl;
 	}
-
-
 }
 
 //Stores the data in the text document into an array.
@@ -66,6 +63,11 @@ int getdata(runnerstats runners[])
 		for (int i = 0; i < RUNNER_STATS; i++)
 			inputFile >> runners[rec].runnermiles[i];
 		rec++;
+	}
+
+	if (!inputFile)
+	{
+		cout << "noooo!";
 	}
 	return rec;
 }
@@ -95,3 +97,4 @@ void avgdata(runnerstats runners[])
 		runners[row].runneraverage = average;
 	}
 }
+
